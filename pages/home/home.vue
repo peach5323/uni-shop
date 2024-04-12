@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import {getSwiperData,getNavData,getFloorData} from '../../apis/home'
+  import {getSwiperDataAPI,getNavDataAPI,getFloorDataAPI} from '../../apis/home'
   export default {
     data() {
       return {
@@ -49,15 +49,15 @@
     },
     methods:{
       async getSwiperList(){
-       const {message:res} = await getSwiperData()
+       const {message:res} = await getSwiperDataAPI()
        this.swiperList = res
       },
       async getNavList(){
-       const {message:res} = await getNavData()
+       const {message:res} = await getNavDataAPI()
        this.navList = res
       },
       async getFloorList(){
-       const {message:res} = await getFloorData()
+       const {message:res} = await getFloorDataAPI()
        // 处理数据
        res.forEach(item=>{
          item.product_list.forEach(i=>{
