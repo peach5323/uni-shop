@@ -1,5 +1,8 @@
 <template>
   <view>
+    <!-- 使用自定义组件 -->
+    <!-- <my-search bgcolor="#333333" radius="5"></my-search> -->
+    <my-search @myclick="toSearch"></my-search>
     <view class="scroll-view-container">
       <!-- 左边滚动视图区 -->
       <scroll-view class="left-scroll-view" :style="{height:windowHeight+'px'}" scroll-y="true" >
@@ -28,7 +31,6 @@
   export default {
     data() {
       return {
-        // 窗口的可用高度 = 屏幕高度 - navigationBar高度 - tabBar 高度
         windowHeight:0,
         active:0,
         cateList:[],
@@ -39,7 +41,8 @@
     },
     onLoad() {
     const sysInfo = uni.getWindowInfo()
-    this.windowHeight = sysInfo.windowHeight
+    // 可用高度 = 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
+    this.windowHeight = sysInfo.windowHeight - 50
     this.getCategories()
     },
     methods:{
@@ -62,6 +65,9 @@
         uni.navigateTo({
           url:'/subpkg/goods_list/goods_list?cid='+item.cat_id
         })
+      },
+      toSearch(){
+        console.log('ok');
       }
       
     },
