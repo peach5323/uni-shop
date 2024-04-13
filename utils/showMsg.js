@@ -1,9 +1,9 @@
 
-function showMsg(title='数据加载失败！',duration=1500){
+function showMsg({title='数据加载失败！',duration=1500,icon='none'}){
     uni.showToast({
       title,
       duration,
-      icon:'none'
+      icon
     })
   }
 export default showMsg
