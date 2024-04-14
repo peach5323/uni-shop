@@ -10,3 +10,14 @@ export function getGoodsListAPI(queryObj){
     }
   })
 }
+
+// 商品详情
+export function getGoodsDetailAPI(id){
+  return api.request({
+    url:'/api/public/v1/goods/detail',
+    method:'get',
+    data:{
+      goods_id:id
+    }
+  })
+}
