@@ -33,7 +33,14 @@
 
 <script>
   import {getGoodsDetailAPI} from '../../apis/goods.js'
+  import {mapState, mapMutations, mapGetters} from 'vuex'
   export default {
+    computed:{
+      // 调用 mapState 方法，把 m_cart 模块中的 cart 数组映射到当前页面中，作为计算属性来使用
+      // ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
+      ...mapState('m_cart', []),
+      ...mapGetters('m_cart', ['total'])
+    },
     data() {
       return {
         goodsInfo:{},
@@ -63,7 +70,28 @@
       this.getGoodsDetail(goods_id)
       
     },
+    // 使用普通函数的形式定义的 watch 侦听器，在页面首次加载后不会被调用,为了防止这个上述问题，可以使用对象的形式来定义 watch 侦听器
+    watch:{
+      // total(newVal){
+      //   const findRes = this.options.find(i=>i.text === '购物车')
+      //   if(findRes){
+      //     findRes.info = newVal
+      //   }
+      // }
+      total:{
+        // handler 属性用来定义侦听器的 function 处理函数
+        handler(newVal){
+          const findRes = this.options.find(i=>i.text === '购物车')
+          if(findRes){
+            findRes.info = newVal
+          }
+        },
+        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+        immediate:true
+      }
+    },
     methods:{
+      ...mapMutations('m_cart',['addToCart']),
       async getGoodsDetail(id){
         const {message:res} = await getGoodsDetailAPI(id)
         // 使用字符串的 replace() 方法，为 img 标签添加行内的 style 样式，从而解决图片底部空白间隙的问题
@@ -86,8 +114,22 @@
             url:'/pages/cart/cart'
           })
         }
+      },
+      buttonClick(e){
+        if(e.content.text === '加入购物车'){
+          const goods = {
+            goods_id: this.goodsInfo.goods_id, // 商品的Id
+            goods_name: this.goodsInfo.goods_name, // 商品的名称
+            goods_price: this.goodsInfo.goods_price, // 商品的价格
+            goods_count: 1, // 商品的数量
+            goods_small_logo: this.goodsInfo.goods_small_logo, // 商品的图片
+            goods_state: true // 商品的勾选状态
+          }
+          this.addToCart(goods)
+        }
       }
-    }
+    },
+    
   }
 </script>
 
