@@ -46,7 +46,6 @@
         this.updateGoodsCount(e)
       },
       swipeActionClickHandler(e,item,index){
-        
         let {content} = e
         if (content.text === '删除') {
         	uni.showModal({
